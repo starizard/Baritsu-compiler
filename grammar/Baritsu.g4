@@ -1,5 +1,9 @@
 grammar Baritsu;
 
+@header {
+  package com.shawnrebello.baritsu.antlr;
+}
+
 program : list_of_expressions;
 
 
