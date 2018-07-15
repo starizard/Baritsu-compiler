@@ -59,7 +59,8 @@ primitive : STRING # string
           ;
 
 NULL : 'null';
-STRING : '"' (LETTER | INT)+ '"';
+STRING : '"' ALPHANUMERICARRAY '"'
+{setText(getText().substring(1, getText().length()-1));};
 BOOLEAN: 'true' | 'false';
 PRINT : 'print';
 DEF : 'def' ;
@@ -69,6 +70,7 @@ END : 'end';
 SEMICOLON: ';';
 NEWLINE: '\n';
 fragment
+ALPHANUMERICARRAY: (LETTER | INT)+ ;
 LETTER: [a-zA-Z];
 INT: [0-9]+;
 COMMENT: (MULTILINECOMMENT | SINGLELINECOMMENT )  -> channel(HIDDEN);

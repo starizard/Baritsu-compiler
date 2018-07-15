@@ -22,8 +22,8 @@ public class BaritsuParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, TERMINATOR=15, NULL=16, 
 		STRING=17, BOOLEAN=18, PRINT=19, DEF=20, ID=21, DO=22, END=23, SEMICOLON=24, 
-		NEWLINE=25, INT=26, COMMENT=27, MULTILINECOMMENT=28, SINGLELINECOMMENT=29, 
-		WS=30;
+		NEWLINE=25, LETTER=26, INT=27, COMMENT=28, MULTILINECOMMENT=29, SINGLELINECOMMENT=30, 
+		WS=31;
 	public static final int
 		RULE_program = 0, RULE_list_of_expressions = 1, RULE_function_definition = 2, 
 		RULE_block = 3, RULE_list_of_statements = 4, RULE_statement = 5, RULE_variable_declaration = 6, 
@@ -42,8 +42,8 @@ public class BaritsuParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, "TERMINATOR", "NULL", "STRING", "BOOLEAN", "PRINT", 
-		"DEF", "ID", "DO", "END", "SEMICOLON", "NEWLINE", "INT", "COMMENT", "MULTILINECOMMENT", 
-		"SINGLELINECOMMENT", "WS"
+		"DEF", "ID", "DO", "END", "SEMICOLON", "NEWLINE", "LETTER", "INT", "COMMENT", 
+		"MULTILINECOMMENT", "SINGLELINECOMMENT", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -1140,7 +1140,7 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3 \u008d\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3!\u008d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3!\n\3\3\3\3\3\7\3%\n\3"+
 		"\f\3\16\3(\13\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5\66"+
@@ -1174,7 +1174,7 @@ public class BaritsuParser extends Parser {
 		"\2{|\3\2\2\2|\23\3\2\2\2}{\3\2\2\2~\u0083\5\22\n\2\177\u0080\7\20\2\2"+
 		"\u0080\u0082\5\22\n\2\u0081\177\3\2\2\2\u0082\u0085\3\2\2\2\u0083\u0081"+
 		"\3\2\2\2\u0083\u0084\3\2\2\2\u0084\25\3\2\2\2\u0085\u0083\3\2\2\2\u0086"+
-		"\u008b\7\23\2\2\u0087\u008b\7\34\2\2\u0088\u008b\7\24\2\2\u0089\u008b"+
+		"\u008b\7\23\2\2\u0087\u008b\7\35\2\2\u0088\u008b\7\24\2\2\u0089\u008b"+
 		"\7\22\2\2\u008a\u0086\3\2\2\2\u008a\u0087\3\2\2\2\u008a\u0088\3\2\2\2"+
 		"\u008a\u0089\3\2\2\2\u008b\27\3\2\2\2\16 &\65AGMVcy{\u0083\u008a";
 	public static final ATN _ATN =
