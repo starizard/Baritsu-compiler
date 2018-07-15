@@ -45,6 +45,10 @@ public class Value {
    return rVal;
   } else if ((rVal.type == "NULL") && lVal.type != "NULL") {
    return lVal;
+  } else if ((lVal.type == "STRING") || rVal.type == "STRING") {
+    String lValue =  lVal.value.toString();
+    String rValue =  rVal.value.toString();
+    return new Value("STRING", lValue + rValue);
   }
   return new Value();
  }
