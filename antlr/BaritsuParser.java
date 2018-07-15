@@ -20,7 +20,7 @@ public class BaritsuParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, TERMINATOR=4, STRING=5, BOOLEAN=6, PRINT=7, DEF=8, 
-		ID=9, DO=10, END=11, INT=12, WS=13;
+		ID=9, DO=10, END=11, SEMICOLON=12, NEWLINE=13, INT=14, COMMENT=15, WS=16;
 	public static final int
 		RULE_program = 0, RULE_list_of_expressions = 1, RULE_function_definition = 2, 
 		RULE_block = 3, RULE_list_of_statements = 4, RULE_statement = 5, RULE_variable_declaration = 6, 
@@ -32,11 +32,11 @@ public class BaritsuParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'{'", "'}'", "'='", null, null, null, "'print'", "'def'", null, 
-		"'do'", "'end'"
+		"'do'", "'end'", "';'", "'\n'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, "TERMINATOR", "STRING", "BOOLEAN", "PRINT", "DEF", 
-		"ID", "DO", "END", "INT", "WS"
+		"ID", "DO", "END", "SEMICOLON", "NEWLINE", "INT", "COMMENT", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -657,13 +657,13 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17Q\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22Q\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\5\3\35\n\3\3\3\3\3\7\3!\n\3\f\3\16\3$\13\3\3\4\3"+
 		"\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5\62\n\5\3\6\3\6\3\6\3\6"+
 		"\3\6\3\6\3\6\3\6\7\6<\n\6\f\6\16\6?\13\6\3\7\3\7\3\7\5\7D\n\7\3\b\3\b"+
 		"\3\b\3\b\5\bJ\n\b\3\t\3\t\3\t\3\n\3\n\3\n\2\4\4\n\13\2\4\6\b\n\f\16\20"+
-		"\22\2\3\4\2\7\b\16\16\2O\2\24\3\2\2\2\4\34\3\2\2\2\6%\3\2\2\2\b\61\3\2"+
+		"\22\2\3\4\2\7\b\20\20\2O\2\24\3\2\2\2\4\34\3\2\2\2\6%\3\2\2\2\b\61\3\2"+
 		"\2\2\n\63\3\2\2\2\fC\3\2\2\2\16E\3\2\2\2\20K\3\2\2\2\22N\3\2\2\2\24\25"+
 		"\5\4\3\2\25\3\3\2\2\2\26\27\b\3\1\2\27\30\5\6\4\2\30\31\7\6\2\2\31\35"+
 		"\3\2\2\2\32\35\5\n\6\2\33\35\7\6\2\2\34\26\3\2\2\2\34\32\3\2\2\2\34\33"+
