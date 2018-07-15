@@ -15,7 +15,7 @@ list_of_expressions : function_definition TERMINATOR
                     ;
 
 
-function_definition : DEF ID block  # functionDef ;
+function_definition : DEF ID block ;
 
 block : DO list_of_statements END
       | '{' list_of_statements '}'
@@ -25,14 +25,29 @@ list_of_statements : statement TERMINATOR
                    | list_of_statements statement TERMINATOR
                    ;
 
-statement : variable_declaration # varDef
-          | print_statement # printDef
-          | primitive  # primitiveStat
+statement : variable_declaration
+          | print_statement
+          | primitive
           ;
 
-variable_declaration: DEF ID ('=' statement)? ;
+variable_declaration: DEF ID ('=' expr)? ;
 
-print_statement: PRINT ID;
+print_statement: PRINT expr ;
+
+expr : ID '(' argList? ')' # functionCallExpr
+     | expr '[' expr ']'  # arrayExpr
+     | '-' expr # negateExpr
+     | '!' expr # factorialExpr
+     | expr '*' expr # multiplyExpr
+     | expr ('+') expr # addExpr
+     | expr ('-') expr # subExpr
+     | expr '==' expr # compareExpr
+     | ID # idExpr
+     | primitive # primitiveExpr
+     | '(' expr ')' # parenExpr
+     ;
+
+argList : expr (',' expr)* ;
 
 TERMINATOR : (SEMICOLON | NEWLINE | SINGLELINECOMMENT)+ ;
 
