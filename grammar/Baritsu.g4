@@ -34,7 +34,7 @@ variable_declaration: DEF ID ('=' statement)? ;
 
 print_statement: PRINT ID;
 
-TERMINATOR :(';' | '\n')+ ;
+TERMINATOR : (SEMICOLON | NEWLINE)+ ;
 
 primitive : STRING
           | INT
@@ -48,9 +48,12 @@ DEF : 'def' ;
 ID : LETTER (LETTER | [0-9])* ;
 DO : 'do';
 END : 'end';
+SEMICOLON: ';';
+NEWLINE: '\n';
 fragment
 LETTER: [a-zA-Z];
 INT: [0-9]+;
+COMMENT: ('/*' .*? '*/' | '//' .*? NEWLINE )  -> channel(HIDDEN);
 WS: [ \t\r]+ -> skip;
 
 
