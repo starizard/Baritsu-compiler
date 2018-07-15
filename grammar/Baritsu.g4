@@ -30,18 +30,41 @@ statement : variable_declaration
           | primitive
           ;
 
-variable_declaration: DEF ID ('=' statement)? ;
+variable_declaration: DEF ID ('=' expr)? ;
 
-print_statement: PRINT ID;
+print_statement: PRINT expr ;
 
-TERMINATOR : (SEMICOLON | NEWLINE)+ ;
+expr : ID '(' argList? ')' # functionCallExpr
+     | expr '[' expr ']'  # arrayExpr
+     | '-' expr # negateExpr
+     | '!' expr # notExpr
+     | expr '*' expr # multiplyExpr
+     | expr '/' expr # divideExpr
+     | expr ('+') expr # addExpr
+     | expr ('-') expr # subExpr
+     | expr '==' expr # eqExpr
+     | expr '<' expr # lessThanExpr
+     | expr '>' expr # greaterThanExpr
+     | expr '<=' expr # lessThanEqExpr
+     | expr '>=' expr # greaterThanEqExpr
+     | ID # idExpr
+     | primitive # primitiveExpr
+     | '(' expr ')' # parenExpr
+     ;
 
-primitive : STRING
-          | INT
-          | BOOLEAN
+argList : expr (',' expr)* ;
+
+TERMINATOR : (SEMICOLON | NEWLINE | SINGLELINECOMMENT)+ ;
+
+primitive : STRING # string
+          | INT # int
+          | BOOLEAN # bool
+          | NULL # null
           ;
 
-STRING : '"' (LETTER | INT)+ '"';
+NULL : 'null';
+STRING : '"' ALPHANUMERICARRAY '"'
+{setText(getText().substring(1, getText().length()-1));};
 BOOLEAN: 'true' | 'false';
 PRINT : 'print';
 DEF : 'def' ;
@@ -51,9 +74,12 @@ END : 'end';
 SEMICOLON: ';';
 NEWLINE: '\n';
 fragment
+ALPHANUMERICARRAY: (LETTER | INT)+ ;
 LETTER: [a-zA-Z];
 INT: [0-9]+;
-COMMENT: ('/*' .*? '*/' | '//' .*? NEWLINE )  -> channel(HIDDEN);
+COMMENT: (MULTILINECOMMENT | SINGLELINECOMMENT )  -> channel(HIDDEN);
+MULTILINECOMMENT: '/*' .*? '*/';
+SINGLELINECOMMENT: '//' .*? NEWLINE;
 WS: [ \t\r]+ -> skip;
 
 
