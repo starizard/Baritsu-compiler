@@ -1,8 +1,13 @@
-def x = 3;
-def y = "hi";
-def z = true;
-def c = null
+def x = 3;  // Int
+def y = "hi";  // String
+def a;  // Variable definition, type not inferred yet
+def z = true  // Boolean
+def c = null;  // Null
+ /*
+Printing values of the variables
+*/
 print x
-print y
-print z;
+print y;
+print z
 print c;
+print a
