@@ -61,13 +61,39 @@ public class EvalVisitor extends BaritsuBaseVisitor {
 
 // Expr Visitors
 @Override
- public Object visitMultiplyExpr(BaritsuParser.MultiplyExprContext ctx) {
-    return visitChildren(ctx);
+ public Integer visitMultiplyExpr(BaritsuParser.MultiplyExprContext ctx) {
+    Object l = visit(ctx.expr(0));
+    Object r = visit(ctx.expr(1));
+    if (l instanceof Integer && r instanceof Integer) {
+      Integer left = (Integer) l;
+      Integer right = (Integer)r;
+      return left * right;
+    }
+    return -1; // TODO: THROW AN ERROR HERE
  }
 
  @Override
-   public Object visitSubExpr(BaritsuParser.SubExprContext ctx) {
-      return visitChildren(ctx);
+ public Integer visitDivideExpr(BaritsuParser.DivideExprContext ctx) {
+  Object l = visit(ctx.expr(0));
+  Object r = visit(ctx.expr(1));
+  if (l instanceof Integer && r instanceof Integer) {
+    Integer left = (Integer) l;
+    Integer right = (Integer) r;
+    return left / right;
+  }
+  return -1; // TODO: THROW AN ERROR HERE
+ }
+
+ @Override
+   public Integer visitSubExpr(BaritsuParser.SubExprContext ctx) {
+    Object l = visit(ctx.expr(0));
+    Object r = visit(ctx.expr(1));
+    if (l instanceof Integer && r instanceof Integer) {
+      Integer left = (Integer) l;
+      Integer right = (Integer) r;
+      return left - right;
+    }
+    return -1; // TODO: THROW AN ERROR HERE
   }
 
   @Override
@@ -76,23 +102,39 @@ public class EvalVisitor extends BaritsuBaseVisitor {
   }
 
   @Override
-   public Object visitAddExpr(BaritsuParser.AddExprContext ctx) {
-      return visitChildren(ctx);
+   public Integer visitAddExpr(BaritsuParser.AddExprContext ctx) {
+    Object l = visit(ctx.expr(0));
+    Object r = visit(ctx.expr(1));
+    if (l instanceof Integer && r instanceof Integer) {
+      Integer left = (Integer) l;
+      Integer right = (Integer) r;
+      return left + right;
+    }
+    return -1; // TODO: THROW AN ERROR HERE
   }
-
   @Override
-   public Object visitNegateExpr(BaritsuParser.NegateExprContext ctx) {
-      return visitChildren(ctx);
+   public Integer visitNegateExpr(BaritsuParser.NegateExprContext ctx) {
+      Object expr = visit(ctx.expr());
+      if (expr instanceof Integer) {
+        int e = (Integer) expr;
+        return -e;
+      }
+     return -1; // TODO: THROW AN ERROR HERE
   }
 
   @Override
    public Object visitParenExpr(BaritsuParser.ParenExprContext ctx) {
-      return visitChildren(ctx);
+    return visit(ctx.expr());
   }
 
   @Override
-   public Object visitFactorialExpr(BaritsuParser.FactorialExprContext ctx) {
-      return visitChildren(ctx);
+   public Boolean visitNotExpr(BaritsuParser.NotExprContext ctx) {
+    Object expr = visit(ctx.expr());
+    if (expr instanceof Boolean) {
+      Boolean e = (Boolean) expr;
+      return !e;
+    }
+   return false; // TODO: THROW AN ERROR HERE
   }
 
 

@@ -110,12 +110,12 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenExpr(BaritsuParser.ParenExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code factorialExpr}
+	 * Visit a parse tree produced by the {@code divideExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFactorialExpr(BaritsuParser.FactorialExprContext ctx);
+	T visitDivideExpr(BaritsuParser.DivideExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code primitiveExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
@@ -137,6 +137,13 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCompareExpr(BaritsuParser.CompareExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code notExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotExpr(BaritsuParser.NotExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BaritsuParser#argList}.
 	 * @param ctx the parse tree
