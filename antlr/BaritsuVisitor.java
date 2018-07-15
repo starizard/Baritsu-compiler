@@ -61,12 +61,47 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrint_statement(BaritsuParser.Print_statementContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code lessThanExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThanExpr(BaritsuParser.LessThanExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code lessThanEqExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThanEqExpr(BaritsuParser.LessThanEqExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code functionCallExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionCallExpr(BaritsuParser.FunctionCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code idExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdExpr(BaritsuParser.IdExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayExpr(BaritsuParser.ArrayExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code greaterThanExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterThanExpr(BaritsuParser.GreaterThanExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code multiplyExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
@@ -75,19 +110,19 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMultiplyExpr(BaritsuParser.MultiplyExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code greaterThanEqExpr}
+	 * labeled alternative in {@link BaritsuParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGreaterThanEqExpr(BaritsuParser.GreaterThanEqExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code subExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSubExpr(BaritsuParser.SubExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code idExpr}
-	 * labeled alternative in {@link BaritsuParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdExpr(BaritsuParser.IdExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code addExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
@@ -110,13 +145,6 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenExpr(BaritsuParser.ParenExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code divideExpr}
-	 * labeled alternative in {@link BaritsuParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDivideExpr(BaritsuParser.DivideExprContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code primitiveExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
@@ -124,19 +152,19 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrimitiveExpr(BaritsuParser.PrimitiveExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arrayExpr}
+	 * Visit a parse tree produced by the {@code divideExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArrayExpr(BaritsuParser.ArrayExprContext ctx);
+	T visitDivideExpr(BaritsuParser.DivideExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code compareExpr}
+	 * Visit a parse tree produced by the {@code eqExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompareExpr(BaritsuParser.CompareExprContext ctx);
+	T visitEqExpr(BaritsuParser.EqExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code notExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.

@@ -108,7 +108,7 @@ public class Value {
    Boolean lValue = (Boolean) lVal.value;
    Boolean rValue = (Boolean) rVal.value;
    Integer res = (lValue ? 1 : 0) / (rValue ? 1 : 0);
-   return new Value("BOOLEAN", res);
+   return new Value("INTEGER", res);
   }
   return new Value();
  }
@@ -121,6 +121,68 @@ public class Value {
   return new Value();
  }
 
+ public static Value or(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "BOOLEAN") {
+    Boolean lValue = (Boolean) lVal.value;
+    Boolean rValue = (Boolean) rVal.value;
+    return new Value("BOOLEAN", lValue || rValue);
+   }
+  return new Value();
+ }
+
+ public static Value and(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "BOOLEAN") {
+    Boolean lValue = (Boolean) lVal.value;
+    Boolean rValue = (Boolean) rVal.value;
+    return new Value("BOOLEAN", lValue && rValue);
+   }
+  return new Value();
+ }
+
+ public static Value eq(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "INTEGER") {
+   Integer lValue = (Integer) lVal.value;
+   Integer rValue = (Integer) rVal.value;
+   return new Value("INTEGER", lValue == rValue);
+  }
+  return new Value();
+ }
+
+ public static Value greaterThan(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "INTEGER") {
+   Integer lValue = (Integer) lVal.value;
+   Integer rValue = (Integer) rVal.value;
+   return new Value("BOOLEAN", lValue > rValue);
+  }
+  return new Value();
+ }
+
+ public static Value lessThan(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "INTEGER") {
+   Integer lValue = (Integer) lVal.value;
+   Integer rValue = (Integer) rVal.value;
+   return new Value("BOOLEAN", lValue < rValue);
+  }
+  return new Value();
+ }
+
+ public static Value greaterThanEq(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "INTEGER") {
+   Integer lValue = (Integer) lVal.value;
+   Integer rValue = (Integer) rVal.value;
+   return new Value("BOOLEAN", lValue >= rValue);
+  }
+  return new Value();
+ }
+
+ public static Value lessThanEq(Value lVal, Value rVal) {
+  if ((lVal.type == rVal.type) && lVal.type == "INTEGER") {
+   Integer lValue = (Integer) lVal.value;
+   Integer rValue = (Integer) rVal.value;
+   return new Value("BOOLEAN", lValue <= rValue);
+  }
+  return new Value();
+ }
 
 
 }

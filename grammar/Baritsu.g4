@@ -42,7 +42,11 @@ expr : ID '(' argList? ')' # functionCallExpr
      | expr '/' expr # divideExpr
      | expr ('+') expr # addExpr
      | expr ('-') expr # subExpr
-     | expr '==' expr # compareExpr
+     | expr '==' expr # eqExpr
+     | expr '<' expr # lessThanExpr
+     | expr '>' expr # greaterThanExpr
+     | expr '<=' expr # lessThanEqExpr
+     | expr '>=' expr # greaterThanEqExpr
      | ID # idExpr
      | primitive # primitiveExpr
      | '(' expr ')' # parenExpr
