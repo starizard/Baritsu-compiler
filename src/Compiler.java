@@ -20,8 +20,8 @@ public class Compiler {
     BaritsuParser parser = new BaritsuParser(tokens);
     ParseTree tree = parser.program();
     System.out.println(tree.toStringTree(parser));
-    ParseTreeWalker walker = new ParseTreeWalker();
-    EvalListener eval = new EvalListener(parser);
-    walker.walk(eval, tree);
+
+    EvalVisitor eval = new EvalVisitor();
+    eval.visit(tree);
   }
 }

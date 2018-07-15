@@ -8,31 +8,25 @@ import com.shawnrebello.baritsu.antlr.*;
 import java.lang.reflect.Method;
 
 
-
 public class EvalVisitor extends BaritsuBaseVisitor {
  Map < String, Value > variables = new HashMap < String, Value > ();
-
  @Override
  public Object visitVariable_declaration(BaritsuParser.Variable_declarationContext ctx) {
     String variableName = ctx.ID().getText();
-    Object x = visitChildren(ctx);
     if (ctx.expr() != null) {
-     String value = ctx.expr().getText();
-     // GET ALL METHODS
-    //  Class tClass = ctx.expr().getClass();
-    //  Method[] methods = tClass.getDeclaredMethods();
-    //  for (int i = 0; i < methods.length; i++) {
-		// 	System.out.println("method: " + methods[i]);
-		// }
-     System.out.println(variableName + " = " + x);
+     Value value = (Value) visit(ctx.expr());
+
+    Value boolValue = new Value(value.type, value);
+    variables.put(variableName, boolValue);
+     System.out.println(variableName + " = " + value.value);
     }
-    return x;
+    return 0;
  }
 
  @Override
  public Integer visitPrint_statement(BaritsuParser.Print_statementContext ctx) {
-    Object obj = visit(ctx.expr());
-    System.out.println("" + obj); // Coerce to String
+    Value obj = (Value) visit(ctx.expr());
+    System.out.println(obj); // Coerce to String
     return 0;
   }
 
@@ -40,103 +34,118 @@ public class EvalVisitor extends BaritsuBaseVisitor {
 // Primitive Visitors
 
  @Override
- public String visitString(BaritsuParser.StringContext ctx) {
-   return String.valueOf(ctx.STRING().getText());
+ public Value visitString(BaritsuParser.StringContext ctx) {
+   return new Value("STRING", ctx.STRING().getText());
+}
+
+ @Override
+ public Value visitInt(BaritsuParser.IntContext ctx) {
+  return new Value("INTEGER", Integer.parseInt(ctx.INT().getText()));
   }
 
  @Override
- public Integer visitInt(BaritsuParser.IntContext ctx) {
-    return Integer.valueOf(ctx.INT().getText());
-  }
+ public Value visitBool(BaritsuParser.BoolContext ctx) {
+  return new Value("BOOLEAN", Boolean.parseBoolean(ctx.BOOLEAN().getText()));
+}
 
  @Override
- public Boolean visitBool(BaritsuParser.BoolContext ctx) {
-    return Boolean.valueOf(ctx.BOOLEAN().getText());
-  }
-
- @Override
- public Object visitNull(BaritsuParser.NullContext ctx) {
-    return null;
-  }
+ public Value visitNull(BaritsuParser.NullContext ctx) {
+    return new Value("NULL", null);
+ }
 
 // Expr Visitors
 @Override
- public Integer visitMultiplyExpr(BaritsuParser.MultiplyExprContext ctx) {
-    Object l = visit(ctx.expr(0));
-    Object r = visit(ctx.expr(1));
-    if (l instanceof Integer && r instanceof Integer) {
-      Integer left = (Integer) l;
-      Integer right = (Integer)r;
-      return left * right;
-    }
-    return -1; // TODO: THROW AN ERROR HERE
+ public Value visitMultiplyExpr(BaritsuParser.MultiplyExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.multiply(lVal, rVal);
  }
 
  @Override
- public Integer visitDivideExpr(BaritsuParser.DivideExprContext ctx) {
-  Object l = visit(ctx.expr(0));
-  Object r = visit(ctx.expr(1));
-  if (l instanceof Integer && r instanceof Integer) {
-    Integer left = (Integer) l;
-    Integer right = (Integer) r;
-    return left / right;
-  }
-  return -1; // TODO: THROW AN ERROR HERE
+ public Value visitDivideExpr(BaritsuParser.DivideExprContext ctx) {
+  Value lVal = (Value) visit(ctx.expr(0));
+  Value rVal =  (Value) visit(ctx.expr(1));
+  return Value.divide(lVal, rVal);
  }
 
  @Override
-   public Integer visitSubExpr(BaritsuParser.SubExprContext ctx) {
-    Object l = visit(ctx.expr(0));
-    Object r = visit(ctx.expr(1));
-    if (l instanceof Integer && r instanceof Integer) {
-      Integer left = (Integer) l;
-      Integer right = (Integer) r;
-      return left - right;
-    }
-    return -1; // TODO: THROW AN ERROR HERE
+   public Value visitSubExpr(BaritsuParser.SubExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.sub(lVal, rVal);
   }
 
   @Override
-   public Object visitIdExpr(BaritsuParser.IdExprContext ctx) {
-      return visitChildren(ctx);
+   public Value visitAddExpr(BaritsuParser.AddExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.add(lVal, rVal);
+  }
+  @Override
+   public Value visitNegateExpr(BaritsuParser.NegateExprContext ctx) {
+    Value val = (Value) visit(ctx.expr());
+    Value nil = new Value("NULL", null);
+    return Value.sub(nil, val);
   }
 
   @Override
-   public Integer visitAddExpr(BaritsuParser.AddExprContext ctx) {
-    Object l = visit(ctx.expr(0));
-    Object r = visit(ctx.expr(1));
-    if (l instanceof Integer && r instanceof Integer) {
-      Integer left = (Integer) l;
-      Integer right = (Integer) r;
-      return left + right;
-    }
-    return -1; // TODO: THROW AN ERROR HERE
-  }
-  @Override
-   public Integer visitNegateExpr(BaritsuParser.NegateExprContext ctx) {
-      Object expr = visit(ctx.expr());
-      if (expr instanceof Integer) {
-        int e = (Integer) expr;
-        return -e;
-      }
-     return -1; // TODO: THROW AN ERROR HERE
+   public Value visitParenExpr(BaritsuParser.ParenExprContext ctx) {
+    return (Value) visit(ctx.expr());
   }
 
   @Override
-   public Object visitParenExpr(BaritsuParser.ParenExprContext ctx) {
-    return visit(ctx.expr());
+   public Value visitNotExpr(BaritsuParser.NotExprContext ctx) {
+    Value val = (Value) visit(ctx.expr());
+    return Value.not(val);
   }
 
   @Override
-   public Boolean visitNotExpr(BaritsuParser.NotExprContext ctx) {
-    Object expr = visit(ctx.expr());
-    if (expr instanceof Boolean) {
-      Boolean e = (Boolean) expr;
-      return !e;
-    }
-   return false; // TODO: THROW AN ERROR HERE
+  public Value visitIdExpr(BaritsuParser.IdExprContext ctx) {
+       String var = ctx.ID().getText();
+       if(variables.containsKey(var)){
+         Value value = variables.get(var);
+         System.out.println(var + " = " + value.value + " :: " + value.type);
+         return value;
+       }
+       else {
+         Value undefinedValue = new Value("UNDEFINED", null);
+         return undefinedValue;
+       }
   }
 
+  @Override
+  public Value visitGreaterThanEqExpr(BaritsuParser.GreaterThanEqExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.greaterThanEq(lVal, rVal);
+   }
 
+  @Override
+  public Value visitLessThanEqExpr(BaritsuParser.LessThanEqExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.lessThanEq(lVal, rVal);
+   }
 
-}
+  @Override
+  public Value visitGreaterThanExpr(BaritsuParser.GreaterThanExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.greaterThan(lVal, rVal);
+   }
+
+  @Override
+  public Value visitLessThanExpr(BaritsuParser.LessThanExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.lessThan(lVal, rVal);
+   }
+
+  @Override
+  public Value visitEqExpr(BaritsuParser.EqExprContext ctx) {
+    Value lVal = (Value) visit(ctx.expr(0));
+    Value rVal =  (Value) visit(ctx.expr(1));
+    return Value.eq(lVal, rVal);
+   }
+
+  }
