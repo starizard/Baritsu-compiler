@@ -37,8 +37,9 @@ print_statement: PRINT expr ;
 expr : ID '(' argList? ')' # functionCallExpr
      | expr '[' expr ']'  # arrayExpr
      | '-' expr # negateExpr
-     | '!' expr # factorialExpr
+     | '!' expr # notExpr
      | expr '*' expr # multiplyExpr
+     | expr '/' expr # divideExpr
      | expr ('+') expr # addExpr
      | expr ('-') expr # subExpr
      | expr '==' expr # compareExpr
