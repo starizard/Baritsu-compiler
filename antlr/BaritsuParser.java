@@ -19,8 +19,9 @@ public class BaritsuParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, TERMINATOR=4, STRING=5, BOOLEAN=6, PRINT=7, DEF=8, 
-		ID=9, DO=10, END=11, SEMICOLON=12, NEWLINE=13, INT=14, COMMENT=15, WS=16;
+		T__0=1, T__1=2, T__2=3, TERMINATOR=4, NULL=5, STRING=6, BOOLEAN=7, PRINT=8, 
+		DEF=9, ID=10, DO=11, END=12, SEMICOLON=13, NEWLINE=14, INT=15, COMMENT=16, 
+		MULTILINECOMMENT=17, SINGLELINECOMMENT=18, WS=19;
 	public static final int
 		RULE_program = 0, RULE_list_of_expressions = 1, RULE_function_definition = 2, 
 		RULE_block = 3, RULE_list_of_statements = 4, RULE_statement = 5, RULE_variable_declaration = 6, 
@@ -31,12 +32,13 @@ public class BaritsuParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'{'", "'}'", "'='", null, null, null, "'print'", "'def'", null, 
-		"'do'", "'end'", "';'", "'\n'"
+		null, "'{'", "'}'", "'='", null, "'null'", null, null, "'print'", "'def'", 
+		null, "'do'", "'end'", "';'", "'\n'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, "TERMINATOR", "STRING", "BOOLEAN", "PRINT", "DEF", 
-		"ID", "DO", "END", "SEMICOLON", "NEWLINE", "INT", "COMMENT", "WS"
+		null, null, null, null, "TERMINATOR", "NULL", "STRING", "BOOLEAN", "PRINT", 
+		"DEF", "ID", "DO", "END", "SEMICOLON", "NEWLINE", "INT", "COMMENT", "MULTILINECOMMENT", 
+		"SINGLELINECOMMENT", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -96,12 +98,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterProgram(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitProgram(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitProgram(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -145,12 +144,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_list_of_expressions; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterList_of_expressions(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitList_of_expressions(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitList_of_expressions(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -230,22 +226,27 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static class Function_definitionContext extends ParserRuleContext {
+		public Function_definitionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_function_definition; }
+	 
+		public Function_definitionContext() { }
+		public void copyFrom(Function_definitionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FunctionDefContext extends Function_definitionContext {
 		public TerminalNode DEF() { return getToken(BaritsuParser.DEF, 0); }
 		public TerminalNode ID() { return getToken(BaritsuParser.ID, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
-		public Function_definitionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_function_definition; }
+		public FunctionDefContext(Function_definitionContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterFunction_definition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitFunction_definition(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitFunctionDef(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -253,6 +254,7 @@ public class BaritsuParser extends Parser {
 		Function_definitionContext _localctx = new Function_definitionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_function_definition);
 		try {
+			_localctx = new FunctionDefContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(35);
@@ -285,12 +287,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -351,12 +350,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_list_of_statements; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterList_of_statements(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitList_of_statements(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitList_of_statements(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -420,26 +416,47 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
-		public Variable_declarationContext variable_declaration() {
-			return getRuleContext(Variable_declarationContext.class,0);
-		}
-		public Print_statementContext print_statement() {
-			return getRuleContext(Print_statementContext.class,0);
-		}
-		public PrimitiveContext primitive() {
-			return getRuleContext(PrimitiveContext.class,0);
-		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterStatement(this);
+	 
+		public StatementContext() { }
+		public void copyFrom(StatementContext ctx) {
+			super.copyFrom(ctx);
 		}
+	}
+	public static class PrintDefContext extends StatementContext {
+		public Print_statementContext print_statement() {
+			return getRuleContext(Print_statementContext.class,0);
+		}
+		public PrintDefContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitStatement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitPrintDef(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class PrimitiveStatContext extends StatementContext {
+		public PrimitiveContext primitive() {
+			return getRuleContext(PrimitiveContext.class,0);
+		}
+		public PrimitiveStatContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitPrimitiveStat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VarDefContext extends StatementContext {
+		public Variable_declarationContext variable_declaration() {
+			return getRuleContext(Variable_declarationContext.class,0);
+		}
+		public VarDefContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitVarDef(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -451,6 +468,7 @@ public class BaritsuParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case DEF:
+				_localctx = new VarDefContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(62);
@@ -458,15 +476,18 @@ public class BaritsuParser extends Parser {
 				}
 				break;
 			case PRINT:
+				_localctx = new PrintDefContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(63);
 				print_statement();
 				}
 				break;
+			case NULL:
 			case STRING:
 			case BOOLEAN:
 			case INT:
+				_localctx = new PrimitiveStatContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(64);
@@ -499,12 +520,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_variable_declaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterVariable_declaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitVariable_declaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitVariable_declaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -552,12 +570,9 @@ public class BaritsuParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_print_statement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterPrint_statement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitPrint_statement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitPrint_statement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -585,40 +600,94 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static class PrimitiveContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(BaritsuParser.STRING, 0); }
-		public TerminalNode INT() { return getToken(BaritsuParser.INT, 0); }
-		public TerminalNode BOOLEAN() { return getToken(BaritsuParser.BOOLEAN, 0); }
 		public PrimitiveContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_primitive; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).enterPrimitive(this);
+	 
+		public PrimitiveContext() { }
+		public void copyFrom(PrimitiveContext ctx) {
+			super.copyFrom(ctx);
 		}
+	}
+	public static class IntContext extends PrimitiveContext {
+		public TerminalNode INT() { return getToken(BaritsuParser.INT, 0); }
+		public IntContext(PrimitiveContext ctx) { copyFrom(ctx); }
 		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BaritsuListener ) ((BaritsuListener)listener).exitPrimitive(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitInt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class StringContext extends PrimitiveContext {
+		public TerminalNode STRING() { return getToken(BaritsuParser.STRING, 0); }
+		public StringContext(PrimitiveContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitString(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BoolContext extends PrimitiveContext {
+		public TerminalNode BOOLEAN() { return getToken(BaritsuParser.BOOLEAN, 0); }
+		public BoolContext(PrimitiveContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitBool(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NullContext extends PrimitiveContext {
+		public TerminalNode NULL() { return getToken(BaritsuParser.NULL, 0); }
+		public NullContext(PrimitiveContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BaritsuVisitor ) return ((BaritsuVisitor<? extends T>)visitor).visitNull(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final PrimitiveContext primitive() throws RecognitionException {
 		PrimitiveContext _localctx = new PrimitiveContext(_ctx, getState());
 		enterRule(_localctx, 16, RULE_primitive);
-		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(76);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << BOOLEAN) | (1L << INT))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			setState(80);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case STRING:
+				_localctx = new StringContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(76);
+				match(STRING);
+				}
+				break;
+			case INT:
+				_localctx = new IntContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(77);
+				match(INT);
+				}
+				break;
+			case BOOLEAN:
+				_localctx = new BoolContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(78);
+				match(BOOLEAN);
+				}
+				break;
+			case NULL:
+				_localctx = new NullContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(79);
+				match(NULL);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -657,26 +726,27 @@ public class BaritsuParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22Q\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25U\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\5\3\35\n\3\3\3\3\3\7\3!\n\3\f\3\16\3$\13\3\3\4\3"+
 		"\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5\62\n\5\3\6\3\6\3\6\3\6"+
 		"\3\6\3\6\3\6\3\6\7\6<\n\6\f\6\16\6?\13\6\3\7\3\7\3\7\5\7D\n\7\3\b\3\b"+
-		"\3\b\3\b\5\bJ\n\b\3\t\3\t\3\t\3\n\3\n\3\n\2\4\4\n\13\2\4\6\b\n\f\16\20"+
-		"\22\2\3\4\2\7\b\20\20\2O\2\24\3\2\2\2\4\34\3\2\2\2\6%\3\2\2\2\b\61\3\2"+
-		"\2\2\n\63\3\2\2\2\fC\3\2\2\2\16E\3\2\2\2\20K\3\2\2\2\22N\3\2\2\2\24\25"+
-		"\5\4\3\2\25\3\3\2\2\2\26\27\b\3\1\2\27\30\5\6\4\2\30\31\7\6\2\2\31\35"+
-		"\3\2\2\2\32\35\5\n\6\2\33\35\7\6\2\2\34\26\3\2\2\2\34\32\3\2\2\2\34\33"+
-		"\3\2\2\2\35\"\3\2\2\2\36\37\f\4\2\2\37!\5\4\3\5 \36\3\2\2\2!$\3\2\2\2"+
-		"\" \3\2\2\2\"#\3\2\2\2#\5\3\2\2\2$\"\3\2\2\2%&\7\n\2\2&\'\7\13\2\2\'("+
-		"\5\b\5\2(\7\3\2\2\2)*\7\f\2\2*+\5\n\6\2+,\7\r\2\2,\62\3\2\2\2-.\7\3\2"+
-		"\2./\5\n\6\2/\60\7\4\2\2\60\62\3\2\2\2\61)\3\2\2\2\61-\3\2\2\2\62\t\3"+
-		"\2\2\2\63\64\b\6\1\2\64\65\5\f\7\2\65\66\7\6\2\2\66=\3\2\2\2\678\f\3\2"+
-		"\289\5\f\7\29:\7\6\2\2:<\3\2\2\2;\67\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2"+
-		"\2\2>\13\3\2\2\2?=\3\2\2\2@D\5\16\b\2AD\5\20\t\2BD\5\22\n\2C@\3\2\2\2"+
-		"CA\3\2\2\2CB\3\2\2\2D\r\3\2\2\2EF\7\n\2\2FI\7\13\2\2GH\7\5\2\2HJ\5\f\7"+
-		"\2IG\3\2\2\2IJ\3\2\2\2J\17\3\2\2\2KL\7\t\2\2LM\7\13\2\2M\21\3\2\2\2NO"+
-		"\t\2\2\2O\23\3\2\2\2\b\34\"\61=CI";
+		"\3\b\3\b\5\bJ\n\b\3\t\3\t\3\t\3\n\3\n\3\n\3\n\5\nS\n\n\3\n\2\4\4\n\13"+
+		"\2\4\6\b\n\f\16\20\22\2\2\2V\2\24\3\2\2\2\4\34\3\2\2\2\6%\3\2\2\2\b\61"+
+		"\3\2\2\2\n\63\3\2\2\2\fC\3\2\2\2\16E\3\2\2\2\20K\3\2\2\2\22R\3\2\2\2\24"+
+		"\25\5\4\3\2\25\3\3\2\2\2\26\27\b\3\1\2\27\30\5\6\4\2\30\31\7\6\2\2\31"+
+		"\35\3\2\2\2\32\35\5\n\6\2\33\35\7\6\2\2\34\26\3\2\2\2\34\32\3\2\2\2\34"+
+		"\33\3\2\2\2\35\"\3\2\2\2\36\37\f\4\2\2\37!\5\4\3\5 \36\3\2\2\2!$\3\2\2"+
+		"\2\" \3\2\2\2\"#\3\2\2\2#\5\3\2\2\2$\"\3\2\2\2%&\7\13\2\2&\'\7\f\2\2\'"+
+		"(\5\b\5\2(\7\3\2\2\2)*\7\r\2\2*+\5\n\6\2+,\7\16\2\2,\62\3\2\2\2-.\7\3"+
+		"\2\2./\5\n\6\2/\60\7\4\2\2\60\62\3\2\2\2\61)\3\2\2\2\61-\3\2\2\2\62\t"+
+		"\3\2\2\2\63\64\b\6\1\2\64\65\5\f\7\2\65\66\7\6\2\2\66=\3\2\2\2\678\f\3"+
+		"\2\289\5\f\7\29:\7\6\2\2:<\3\2\2\2;\67\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3"+
+		"\2\2\2>\13\3\2\2\2?=\3\2\2\2@D\5\16\b\2AD\5\20\t\2BD\5\22\n\2C@\3\2\2"+
+		"\2CA\3\2\2\2CB\3\2\2\2D\r\3\2\2\2EF\7\13\2\2FI\7\f\2\2GH\7\5\2\2HJ\5\f"+
+		"\7\2IG\3\2\2\2IJ\3\2\2\2J\17\3\2\2\2KL\7\n\2\2LM\7\f\2\2M\21\3\2\2\2N"+
+		"S\7\b\2\2OS\7\21\2\2PS\7\t\2\2QS\7\7\2\2RN\3\2\2\2RO\3\2\2\2RP\3\2\2\2"+
+		"RQ\3\2\2\2S\23\3\2\2\2\t\34\"\61=CIR";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
