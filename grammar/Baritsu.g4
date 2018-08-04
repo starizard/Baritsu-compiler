@@ -17,22 +17,30 @@ list_of_expressions : function_definition TERMINATOR
 
 function_definition : DEF ID block ;
 
-block : DO list_of_statements END
-      | '{' list_of_statements '}'
+block : (NEWLINE | COMMENT)* '{' list_of_statements '}' (NEWLINE | COMMENT)*
       ;
 
-list_of_statements : statement TERMINATOR
-                   | list_of_statements statement TERMINATOR
-                   ;
+list_of_statements : (TERMINATOR)* (statement)+;
 
-statement : variable_declaration
-          | print_statement
-          | primitive
+statement : variable_declaration (TERMINATOR)+
+          | variable_assignment (TERMINATOR)+
+          | print_statement (TERMINATOR)+
+          | loop_statement (TERMINATOR)* 
+          | branch_statement (TERMINATOR)* 
+          | primitive (TERMINATOR)+
           ;
 
 variable_declaration: DEF ID ('=' expr)? ;
 
-print_statement: PRINT expr ;
+variable_assignment: ID '=' expr ;
+
+print_statement : PRINT expr #printStat
+                | PUTS expr #putsStat
+                ;
+
+loop_statement : WHILE expr block # whileStat
+               ;
+branch_statement : IF expr block (ELSEIF expr)?  block ELSE?  block # ifStat;
 
 expr : ID '(' argList? ')' # functionCallExpr
      | expr '[' expr ']'  # arrayExpr
@@ -63,10 +71,16 @@ primitive : STRING # string
           ;
 
 NULL : 'null';
+WHILE: 'while';
+IF: 'if';
+ELSE: 'else';
+ELSEIF: 'else if';
 STRING : '"' ALPHANUMERICARRAY '"'
 {setText(getText().substring(1, getText().length()-1));};
 BOOLEAN: 'true' | 'false';
 PRINT : 'print';
+PUTS : 'puts';
+FOR: 'for';
 DEF : 'def' ;
 ID : LETTER (LETTER | [0-9])* ;
 DO : 'do';
@@ -74,7 +88,7 @@ END : 'end';
 SEMICOLON: ';';
 NEWLINE: '\n';
 fragment
-ALPHANUMERICARRAY: (LETTER | INT)+ ;
+ALPHANUMERICARRAY: (LETTER | INT | WS)+ ;
 LETTER: [a-zA-Z];
 INT: [0-9]+;
 COMMENT: (MULTILINECOMMENT | SINGLELINECOMMENT )  -> channel(HIDDEN);
