@@ -55,11 +55,39 @@ public interface BaritsuVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable_declaration(BaritsuParser.Variable_declarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BaritsuParser#print_statement}.
+	 * Visit a parse tree produced by {@link BaritsuParser#variable_assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrint_statement(BaritsuParser.Print_statementContext ctx);
+	T visitVariable_assignment(BaritsuParser.Variable_assignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code printStat}
+	 * labeled alternative in {@link BaritsuParser#print_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintStat(BaritsuParser.PrintStatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code putsStat}
+	 * labeled alternative in {@link BaritsuParser#print_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPutsStat(BaritsuParser.PutsStatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code whileStat}
+	 * labeled alternative in {@link BaritsuParser#loop_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileStat(BaritsuParser.WhileStatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ifStat}
+	 * labeled alternative in {@link BaritsuParser#branch_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStat(BaritsuParser.IfStatContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code lessThanExpr}
 	 * labeled alternative in {@link BaritsuParser#expr}.

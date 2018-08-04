@@ -1,0 +1,22 @@
+def x = 2;
+def y;
+
+if (x > 3) {
+  print "x is larger than 3"
+} else if ( x == 3) {
+  puts "x is smaller thn 3"
+} 
+else {
+  puts "x is smaller than 3"
+}
+
+while (x > 0) {
+  x = x - 1;
+  puts "O";
+  y = 3;
+  while (y > 0) {
+    print "I"
+    y = y - 1;
+  }
+}
+

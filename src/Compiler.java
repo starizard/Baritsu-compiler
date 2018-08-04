@@ -19,8 +19,6 @@ public class Compiler {
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     BaritsuParser parser = new BaritsuParser(tokens);
     ParseTree tree = parser.program();
-    System.out.println(tree.toStringTree(parser));
-
     EvalVisitor eval = new EvalVisitor();
     eval.visit(tree);
   }
